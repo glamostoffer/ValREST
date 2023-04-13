@@ -1,8 +1,17 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"ValREST/internal/services"
+
+	"github.com/gin-gonic/gin"
+)
 
 type Handler struct {
+	services *services.Service
+}
+
+func NewHandler(services *services.Service) *Handler {
+	return &Handler{services: services}
 }
 
 func (h *Handler) InitRouts() *gin.Engine {
