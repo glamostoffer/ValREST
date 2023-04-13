@@ -6,4 +6,5 @@ type Lineup struct {
 	MapName   string `json:"map"`
 	Objective bool   `json:"objective"`
 	Ability   string `json:"ability"`
+	Source    string `json:"source"`
 }

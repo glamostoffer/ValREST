@@ -1,13 +1,15 @@
 package main
 
 import (
-	app "ValREST/internal/app"
+	"ValREST/internal/app"
+	"ValREST/internal/handlers"
 	"log"
 )
 
 func main() {
 	serv := new(app.Server)
-	if err := serv.Start(); err != nil {
+	handler := new(handlers.Handler)
+	if err := serv.Start(handler.InitRouts()); err != nil {
 		log.Fatalf("error starting server: %s", err.Error())
 	}
 }

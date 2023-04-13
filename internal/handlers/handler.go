@@ -9,19 +9,20 @@ func (h *Handler) InitRouts() *gin.Engine {
 	router := gin.New()
 	auth := router.Group("/auth")
 	{
-		auth.POST("/login")
-		auth.POST("/register")
+		auth.POST("/login", h.login)
+		auth.POST("/register", h.register)
 	}
 
 	api := router.Group("/api")
 	{
-		api.GET("/lineup")
-		api.POST("/lineup/:agent/:map/:objective/:ability")
-		api.PUT("/lineup/:agent/:map/:objective/:ability")
-		api.GET("/lineup/:agent")
-		api.GET("/lineup/:agent/:map")
-		api.GET("/lineup/:agent/:map/:objective")
-		api.GET("/lineup/:agent/:map/:objective/:ability")
+		api.GET("/lineup", h.getAllLineups)
+		api.POST("/lineup/:agent/:map/:objective/:ability", h.createLinup)
+		api.PUT("/lineup/:agent/:map/:objective/:ability", h.updateLinup)
+		api.DELETE("/lineup/:agent/:map/:objective/:ability", h.deleteLinup)
+		api.GET("/lineup/:agent", h.getLinupByAgent)
+		api.GET("/lineup/:agent/:map", h.getLinupByAgentAndMap)
+		api.GET("/lineup/:agent/:map/:objective", h.getLinupWithAgentMapObjective)
+		api.GET("/lineup/:agent/:map/:objective/:ability", h.getLinupWithAgentMapObjectiveAbility)
 	}
 
 	return router
