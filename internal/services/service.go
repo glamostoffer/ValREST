@@ -1,7 +1,7 @@
 package services
 
 import (
-	repo "ValREST/internal/database/postgrsql"
+	repo "ValREST/internal/database"
 )
 
 type Authorization interface {
