@@ -2,6 +2,7 @@ package postgrsql
 
 import (
 	"ValREST/internal/models"
+	"fmt"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -15,5 +16,11 @@ func NewAuthPostgres(db *sqlx.DB) *AuthPostgres {
 }
 
 func (s *AuthPostgres) CreateUser(user models.User) (int, error) {
-	return 0, nil
+	var id int
+	query := fmt.Sprintf("INSERT INTO %s (name, password, role) VALUES ($1, $2, $3) RETURNING id", usersTable)
+	row := s.db.QueryRow(query, user.Name, user.Password, "default")
+	if err := row.Scan(&id); err != nil {
+		return -1, err
+	}
+	return id, nil
 }

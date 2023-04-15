@@ -33,6 +33,7 @@ func main() {
 		DBName:   viper.GetString("db.dbname"),
 		SSLMode:  viper.GetString("db.sslmode"),
 	})
+
 	if err != nil {
 		logrus.Fatalf("failed to init db: %s", err.Error())
 	}
