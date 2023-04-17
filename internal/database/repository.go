@@ -9,6 +9,7 @@ import (
 
 type Authorization interface {
 	CreateUser(user models.User) (int, error)
+	GetUser(name, pssword string) (models.User, error)
 }
 
 type Lineup interface {

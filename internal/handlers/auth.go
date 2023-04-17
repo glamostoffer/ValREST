@@ -29,6 +29,28 @@ func (h *Handler) register(c *gin.Context) {
 	})
 }
 
-func (h *Handler) login(c *gin.Context) {
+type signInInput struct {
+	Name     string `json:"name" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
 
+func (h *Handler) login(c *gin.Context) {
+	var input signInInput
+
+	if err := c.BindJSON(&input); err != nil {
+		logrus.Errorf("error binding json: %s", err.Error())
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	token, err := h.services.Authorization.GenerateToken(input.Name, input.Password)
+	if err != nil {
+		logrus.Errorf("error creating user: %s", err.Error())
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"token": token,
+	})
 }
