@@ -1,6 +1,10 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 func (h *Handler) createLinup(c *gin.Context) {
 
@@ -11,7 +15,11 @@ func (h *Handler) getAllLineups(c *gin.Context) {
 }
 
 func (h *Handler) getLinupByAgent(c *gin.Context) {
-
+	id, _ := c.Get(userCtx)
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"id":    id,
+		"agent": c.Param("agent"),
+	})
 }
 
 func (h *Handler) getLinupByAgentAndMap(c *gin.Context) {

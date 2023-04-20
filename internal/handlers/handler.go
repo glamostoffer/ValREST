@@ -22,16 +22,17 @@ func (h *Handler) InitRouts() *gin.Engine {
 		auth.POST("/register", h.register)
 	}
 
-	api := router.Group("/api")
+	api := router.Group("/lineup", h.userIdentity)
 	{
-		api.GET("/lineup", h.getAllLineups)
-		api.POST("/lineup/:agent/:map/:objective/:ability", h.createLinup)
-		api.PUT("/lineup/:agent/:map/:objective/:ability", h.updateLinup)
-		api.DELETE("/lineup/:agent/:map/:objective/:ability", h.deleteLinup)
-		api.GET("/lineup/:agent", h.getLinupByAgent)
-		api.GET("/lineup/:agent/:map", h.getLinupByAgentAndMap)
-		api.GET("/lineup/:agent/:map/:objective", h.getLinupWithAgentMapObjective)
-		api.GET("/lineup/:agent/:map/:objective/:ability", h.getLinupWithAgentMapObjectiveAbility)
+		api.GET("/", h.getAllLineups)
+
+		api.POST("/:agent/:map/:objective/:ability", h.createLinup)
+		api.PUT("/:agent/:map/:objective/:ability", h.updateLinup)
+		api.DELETE("/:agent/:map/:objective/:ability", h.deleteLinup)
+		api.GET("/:agent", h.getLinupByAgent)
+		api.GET("/:agent/:map", h.getLinupByAgentAndMap)
+		api.GET("/:agent/:map/:objective", h.getLinupWithAgentMapObjective)
+		api.GET("/:agent/:map/:objective/:ability", h.getLinupWithAgentMapObjectiveAbility)
 	}
 
 	return router

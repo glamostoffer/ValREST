@@ -4,6 +4,7 @@ import (
 	repository "ValREST/internal/database"
 	"ValREST/internal/models"
 	"crypto/sha1"
+	"errors"
 	"fmt"
 	"time"
 
@@ -56,4 +57,22 @@ func (s *AuthService) GenerateToken(name, password string) (string, error) {
 	})
 
 	return token.SignedString([]byte(signInKey))
+}
+
+func (s *AuthService) ParseToken(token string) (int, error) {
+	accessToken, err := jwt.ParseWithClaims(token, &tokenClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("invalid signin method")
+		}
+		return []byte(signInKey), nil
+	})
+	if err != nil {
+		return 0, err
+	}
+	claims, ok := accessToken.Claims.(*tokenClaims)
+	if !ok {
+		return 0, errors.New("token claims are not of type *tokenClaims")
+	}
+
+	return claims.UserId, nil
 }
