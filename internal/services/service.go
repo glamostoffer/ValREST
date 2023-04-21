@@ -12,6 +12,7 @@ type Authorization interface {
 }
 
 type Lineup interface {
+	Create(userId int, lineup models.Lineup) (int, error)
 }
 
 type Service struct {
@@ -22,5 +23,6 @@ type Service struct {
 func NewService(repos *repo.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
+		Lineup:        NewLineupService(repos.Lineup),
 	}
 }

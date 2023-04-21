@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"net/http"
 	"strings"
 
@@ -36,4 +37,22 @@ func (h *Handler) userIdentity(c *gin.Context) {
 	}
 
 	c.Set(userCtx, userId)
+}
+
+func getUserId(c *gin.Context) (int, error) {
+	id, ok := c.Get(userCtx)
+	if !ok {
+		logrus.Errorf("user id not found")
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "user id not found"})
+		return 0, errors.New("user id not found")
+	}
+
+	intId, ok := id.(int)
+	if !ok {
+		logrus.Errorf("can't convert user id into int type")
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "can't convert user id into int type"})
+		return 0, errors.New("can't convert user id into int type")
+	}
+
+	return intId, nil
 }

@@ -1,13 +1,36 @@
 package handlers
 
 import (
+	"ValREST/internal/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 func (h *Handler) createLinup(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
 
+	var input models.Lineup
+	if err := c.BindJSON(&input); err != nil {
+		logrus.Errorf("error: %s", err.Error())
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	id, err := h.services.Lineup.Create(userId, input)
+	if err != nil {
+		logrus.Errorf("error during creating lineup service: %s", err.Error())
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"id": id,
+	})
 }
 
 func (h *Handler) getAllLineups(c *gin.Context) {
@@ -15,11 +38,7 @@ func (h *Handler) getAllLineups(c *gin.Context) {
 }
 
 func (h *Handler) getLinupByAgent(c *gin.Context) {
-	id, _ := c.Get(userCtx)
-	c.JSON(http.StatusOK, map[string]interface{}{
-		"id":    id,
-		"agent": c.Param("agent"),
-	})
+
 }
 
 func (h *Handler) getLinupByAgentAndMap(c *gin.Context) {

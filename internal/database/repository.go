@@ -1,7 +1,7 @@
 package database
 
 import (
-	auth "ValREST/internal/database/postgresql"
+	postgres "ValREST/internal/database/postgresql"
 	"ValREST/internal/models"
 
 	"github.com/jmoiron/sqlx"
@@ -13,6 +13,7 @@ type Authorization interface {
 }
 
 type Lineup interface {
+	Create(userId int, lineup models.Lineup) (int, error)
 }
 
 type Repository struct {
@@ -22,7 +23,8 @@ type Repository struct {
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
-		Authorization: auth.NewAuthPostgres(db),
+		Authorization: postgres.NewAuthPostgres(db),
+		Lineup:        postgres.NewLineupPostgres(db),
 	}
 }
 
