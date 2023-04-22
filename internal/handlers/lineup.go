@@ -38,7 +38,14 @@ func (h *Handler) getAllLineups(c *gin.Context) {
 }
 
 func (h *Handler) getLinupByAgent(c *gin.Context) {
+	sources, err := h.services.Lineup.GetByAgent(c.Param("agent"))
+	if err != nil {
+		logrus.Errorf("error during getting lineups sources: %s", err.Error())
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 
+	c.JSON(http.StatusOK, sources)
 }
 
 func (h *Handler) getLinupByAgentAndMap(c *gin.Context) {

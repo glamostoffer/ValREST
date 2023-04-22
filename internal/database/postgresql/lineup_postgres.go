@@ -18,6 +18,7 @@ func NewLineupPostgres(db *sqlx.DB) *LineupPostgres {
 
 func (r *LineupPostgres) Create(userId int, lineup models.Lineup) (int, error) {
 	var id int
+	lineup.Author = userId
 	query := fmt.Sprintf("INSERT INTO %s (agent, mapname, objective, ability, source, author) values ($1, $2, $3, $4, $5, $6) RETURNING id", lineupsTable)
 	row := r.db.QueryRow(query, lineup.Agent, lineup.MapName, lineup.Objective, lineup.Ability, lineup.Source, lineup.Author)
 	if err := row.Scan(&id); err != nil {
@@ -27,4 +28,12 @@ func (r *LineupPostgres) Create(userId int, lineup models.Lineup) (int, error) {
 
 	return id, nil
 
+}
+
+func (r *LineupPostgres) GetByAgent(agent string) ([]string, error) {
+	var sources []string
+	query := fmt.Sprintf("SELECT source from %s where agent=$1", lineupsTable)
+	err := r.db.Select(&sources, query, agent)
+
+	return sources, err
 }

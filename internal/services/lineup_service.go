@@ -16,3 +16,7 @@ func NewLineupService(repo repository.Lineup) *LineupService {
 func (s *LineupService) Create(userId int, lineup models.Lineup) (int, error) {
 	return s.repo.Create(userId, lineup)
 }
+
+func (s *LineupService) GetByAgent(agent string) ([]string, error) {
+	return s.repo.GetByAgent(agent)
+}

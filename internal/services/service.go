@@ -13,6 +13,7 @@ type Authorization interface {
 
 type Lineup interface {
 	Create(userId int, lineup models.Lineup) (int, error)
+	GetByAgent(agent string) ([]string, error)
 }
 
 type Service struct {
