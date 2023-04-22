@@ -20,3 +20,7 @@ func (s *LineupService) Create(userId int, lineup models.Lineup) (int, error) {
 func (s *LineupService) GetByAgent(agent string) ([]string, error) {
 	return s.repo.GetByAgent(agent)
 }
+
+func (s *LineupService) DeleteLinup(id int) error {
+	return s.repo.DeleteLinup(id)
+}

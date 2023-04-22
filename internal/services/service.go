@@ -14,6 +14,7 @@ type Authorization interface {
 type Lineup interface {
 	Create(userId int, lineup models.Lineup) (int, error)
 	GetByAgent(agent string) ([]string, error)
+	DeleteLinup(id int) error
 }
 
 type Service struct {

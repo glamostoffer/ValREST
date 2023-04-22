@@ -3,6 +3,7 @@ package handlers
 import (
 	"ValREST/internal/models"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -41,7 +42,7 @@ func (h *Handler) getLinupByAgent(c *gin.Context) {
 	sources, err := h.services.Lineup.GetByAgent(c.Param("agent"))
 	if err != nil {
 		logrus.Errorf("error during getting lineups sources: %s", err.Error())
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"handler": err.Error()})
 		return
 	}
 
@@ -65,5 +66,18 @@ func (h *Handler) updateLinup(c *gin.Context) {
 }
 
 func (h *Handler) deleteLinup(c *gin.Context) {
+	lineupId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		logrus.Errorf("wrong lineup id: %s", err.Error())
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"handler": err.Error()})
+		return
+	}
+	err = h.services.Lineup.DeleteLinup(lineupId)
+	if err != nil {
+		logrus.Errorf("error during deleting lineup: %s", err.Error())
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"handler": err.Error()})
+		return
+	}
 
+	c.Status(http.StatusOK)
 }

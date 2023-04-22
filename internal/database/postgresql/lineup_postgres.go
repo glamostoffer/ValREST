@@ -37,3 +37,10 @@ func (r *LineupPostgres) GetByAgent(agent string) ([]string, error) {
 
 	return sources, err
 }
+
+func (r *LineupPostgres) DeleteLinup(id int) error {
+	query := fmt.Sprintf("DELETE from %s WHERE id=$1", lineupsTable)
+	_, err := r.db.Exec(query, id)
+
+	return err
+}

@@ -28,7 +28,7 @@ func (h *Handler) InitRouts() *gin.Engine {
 
 		api.POST("/", h.createLinup)
 		api.PUT("/", h.updateLinup)
-		api.DELETE("/", h.deleteLinup)
+		api.DELETE("/:id", h.deleteLinup)
 		api.GET("/:agent", h.getLinupByAgent)
 		api.GET("/:agent/:map", h.getLinupByAgentAndMap)
 		api.GET("/:agent/:map/:objective", h.getLinupWithAgentMapObjective)
