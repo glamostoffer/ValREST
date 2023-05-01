@@ -24,3 +24,15 @@ func (s *LineupService) GetByAgent(agent string) ([]string, error) {
 func (s *LineupService) DeleteLinup(id int) error {
 	return s.repo.DeleteLinup(id)
 }
+
+func (s *LineupService) GetByAgentAndMap(agent, mapName string) ([]string, error) {
+	return s.repo.GetByAgentAndMap(agent, mapName)
+}
+
+func (s *LineupService) GetByAgentMapObjective(agent, mapName, objective string) ([]string, error) {
+	return s.repo.GetByAgentMapObjective(agent, mapName, objective)
+}
+
+func (s *LineupService) GetByAgentMapObjectiveAbility(agent, mapName, objective, ability string) ([]string, error) {
+	return s.repo.GetByAgentMapObjectiveAbility(agent, mapName, objective, ability)
+}

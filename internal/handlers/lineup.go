@@ -50,15 +50,36 @@ func (h *Handler) getLinupByAgent(c *gin.Context) {
 }
 
 func (h *Handler) getLinupByAgentAndMap(c *gin.Context) {
+	sources, err := h.services.Lineup.GetByAgentAndMap(c.Param("agent"), c.Param("map"))
+	if err != nil {
+		logrus.Errorf("error during getting lineups sources: %s", err.Error())
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"handler": err.Error()})
+		return
+	}
 
+	c.JSON(http.StatusOK, sources)
 }
 
 func (h *Handler) getLinupWithAgentMapObjective(c *gin.Context) {
+	sources, err := h.services.Lineup.GetByAgentMapObjective(c.Param("agent"), c.Param("map"), c.Param("objective"))
+	if err != nil {
+		logrus.Errorf("error during getting lineups sources: %s", err.Error())
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"handler": err.Error()})
+		return
+	}
 
+	c.JSON(http.StatusOK, sources)
 }
 
 func (h *Handler) getLinupWithAgentMapObjectiveAbility(c *gin.Context) {
+	sources, err := h.services.Lineup.GetByAgentMapObjectiveAbility(c.Param("agent"), c.Param("map"), c.Param("objective"), c.Param("ability"))
+	if err != nil {
+		logrus.Errorf("error during getting lineups sources: %s", err.Error())
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"handler": err.Error()})
+		return
+	}
 
+	c.JSON(http.StatusOK, sources)
 }
 
 func (h *Handler) updateLinup(c *gin.Context) {

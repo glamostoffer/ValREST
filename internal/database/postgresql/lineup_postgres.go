@@ -44,3 +44,27 @@ func (r *LineupPostgres) DeleteLinup(id int) error {
 
 	return err
 }
+
+func (r *LineupPostgres) GetByAgentAndMap(agent, mapName string) ([]string, error) {
+	var sources []string
+	query := fmt.Sprintf("SELECT source from %s where agent=$1 and mapname=$2", lineupsTable)
+	err := r.db.Select(&sources, query, agent, mapName)
+
+	return sources, err
+}
+
+func (r *LineupPostgres) GetByAgentMapObjective(agent, mapName, objective string) ([]string, error) {
+	var sources []string
+	query := fmt.Sprintf("SELECT source from %s where agent=$1 and mapname=$2 and objective=$3", lineupsTable)
+	err := r.db.Select(&sources, query, agent, mapName, objective)
+
+	return sources, err
+}
+
+func (r *LineupPostgres) GetByAgentMapObjectiveAbility(agent, mapName, objective, ability string) ([]string, error) {
+	var sources []string
+	query := fmt.Sprintf("SELECT source from %s where agent=$1 and mapname=$2 and objective=$3 and ability=$4", lineupsTable)
+	err := r.db.Select(&sources, query, agent, mapName, objective, ability)
+
+	return sources, err
+}

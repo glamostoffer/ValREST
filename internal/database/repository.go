@@ -16,6 +16,9 @@ type Lineup interface {
 	Create(userId int, lineup models.Lineup) (int, error)
 	GetByAgent(agent string) ([]string, error)
 	DeleteLinup(id int) error
+	GetByAgentAndMap(agent, mapName string) ([]string, error)
+	GetByAgentMapObjective(agent, mapName, objective string) ([]string, error)
+	GetByAgentMapObjectiveAbility(agent, mapName, objective, ability string) ([]string, error)
 }
 
 type Repository struct {
