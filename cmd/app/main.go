@@ -29,7 +29,7 @@ func main() {
 		Port:     viper.GetString("db.port"),
 		Username: viper.GetString("db.username"),
 		// Password: os.Getenv("DB_PASSWORD"),
-		Password: viper.GetString("DB_PASSWORD"),
+		Password: viper.GetString("db.DB_PASSWORD"),
 		DBName:   viper.GetString("db.dbname"),
 		SSLMode:  viper.GetString("db.sslmode"),
 	})
