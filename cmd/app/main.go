@@ -6,7 +6,6 @@ import (
 	postgres "ValREST/internal/database/postgresql"
 	"ValREST/internal/handlers"
 	"ValREST/internal/services"
-	"os"
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
@@ -29,7 +28,8 @@ func main() {
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.port"),
 		Username: viper.GetString("db.username"),
-		Password: os.Getenv("DB_PASSWORD"),
+		// Password: os.Getenv("DB_PASSWORD"),
+		Password: viper.GetString("DB_PASSWORD"),
 		DBName:   viper.GetString("db.dbname"),
 		SSLMode:  viper.GetString("db.sslmode"),
 	})
