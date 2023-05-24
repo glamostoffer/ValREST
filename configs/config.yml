@@ -1,6 +1,7 @@
 port: "8080"
 db: 
-  host: "localhost"
+  host: "database"
+  # host: "localhost"
   port: "5432"
   username: "postgres"
   dbname: "lineupdb"

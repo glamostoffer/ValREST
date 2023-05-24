@@ -20,6 +20,7 @@ func (r *LineupPostgres) Create(userId int, lineup models.Lineup) (int, error) {
 	var id int
 	lineup.Author = userId
 	query := fmt.Sprintf("INSERT INTO %s (agent, mapname, objective, ability, source, author) values ($1, $2, $3, $4, $5, $6) RETURNING id", lineupsTable)
+	// fmt.Println(lineup.MapName)
 	row := r.db.QueryRow(query, lineup.Agent, lineup.MapName, lineup.Objective, lineup.Ability, lineup.Source, lineup.Author)
 	if err := row.Scan(&id); err != nil {
 		logrus.Errorf("error during insert lineup into db: %s", err.Error())
@@ -27,7 +28,6 @@ func (r *LineupPostgres) Create(userId int, lineup models.Lineup) (int, error) {
 	}
 
 	return id, nil
-
 }
 
 func (r *LineupPostgres) GetByAgent(agent string) ([]string, error) {

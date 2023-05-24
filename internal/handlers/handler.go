@@ -22,13 +22,13 @@ func (h *Handler) InitRouts() *gin.Engine {
 		auth.POST("/register", h.register)
 	}
 
-	api := router.Group("/api", h.userIdentity)
+	api := router.Group("/api")
 	{
 		api.GET("/", h.getAllLineups)
 
-		api.POST("/", h.createLinup)
-		api.PUT("/", h.updateLinup)
-		api.DELETE("/:id", h.deleteLinup)
+		api.POST("/", h.userIdentity, h.createLinup)
+		api.PUT("/", h.userIdentity, h.updateLinup)
+		api.DELETE("/:id", h.userIdentity, h.deleteLinup)
 		api.GET("/:agent", h.getLinupByAgent)
 		api.GET("/:agent/:map", h.getLinupByAgentAndMap)
 		api.GET("/:agent/:map/:objective", h.getLinupWithAgentMapObjective)
