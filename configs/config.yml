@@ -5,4 +5,5 @@ db:
   port: "5432"
   username: "postgres"
   dbname: "lineupdb"
+  DB_PASSWORD: "345Adf45LT3.0"
   sslmode: "disable"
